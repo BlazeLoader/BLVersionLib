@@ -1,28 +1,28 @@
 package net.acomputerdog.BLVersionLib;
 
-import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
- * A version list loaded from a file
+ * A version list downloaded from a URL
  */
-public class StreamVersionList implements VersionList {
-    private static final String REGEX_COLON = Pattern.quote(":");
+public class NetVersionList implements VersionList {
+    private static final String REGEX_UNDERSCORE = Pattern.quote("_");
 
     private final BLVersion newestVersion;
     private final Map<String, BLVersion> allVersions = new HashMap<String, BLVersion>();
 
-    public StreamVersionList(InputStream in) {
+    public NetVersionList(URL url) {
         try {
             Properties prop = new Properties();
-            prop.load(in);
+            prop.load(url.openStream());
             for (Object obj : prop.keySet()) {
                 String version = (String) obj;
                 if (!"newest".equals(version)) {
-                    String[] parts = version.split(REGEX_COLON);
+                    String[] parts = version.split(REGEX_UNDERSCORE);
                     if (parts.length >= 2) {
                         allVersions.put(version, new BLVersion(parts[0], parts[1], prop.getProperty(version)));
                     }
@@ -30,7 +30,7 @@ public class StreamVersionList implements VersionList {
             }
             newestVersion = allVersions.get(prop.getProperty("newest", ""));
         } catch (Exception e) {
-            throw new RuntimeException("Unable to load version list!", e);
+            throw new RuntimeException("Unable to download version list!", e);
         }
     }
 
@@ -65,11 +65,10 @@ public class StreamVersionList implements VersionList {
         Map<String, BLVersion> mcVers = new HashMap<String, BLVersion>();
         for (Object obj : mcVers.keySet()) {
             String versionName = (String) obj;
-            if (versionName.split(REGEX_COLON)[0].equals(mcVer)) {
+            if (versionName.split(REGEX_UNDERSCORE)[0].equals(mcVer)) {
                 mcVers.put(versionName, allVersions.get(versionName));
             }
         }
         return mcVers;
     }
-
 }
