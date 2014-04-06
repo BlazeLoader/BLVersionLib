@@ -1,11 +1,14 @@
 package net.acomputerdog.BLVersionLib;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Interface representing a BL version list.
  */
 public abstract class VersionList {
+    public static final String REGEX_UNDERSCORE = Pattern.quote("_");
 
     /**
      * Gets all BL versions from this VersionList
@@ -27,5 +30,14 @@ public abstract class VersionList {
      * @param mcVer The version string to look for
      * @return Return an Array of BLVersions containing the versions that support the specified MC version
      */
-    public abstract Map<String, BLVersion> getVersionsByMC(String mcVer);
+    public Map<String, BLVersion> getVersionsByMC(String mcVer) {
+        Map<String, BLVersion> mcVers = new HashMap<String, BLVersion>();
+        for (Object obj : mcVers.keySet()) {
+            String versionName = (String) obj;
+            if (versionName.split(REGEX_UNDERSCORE)[0].equals(mcVer)) {
+                mcVers.put(versionName, getVersions().get(versionName));
+            }
+        }
+        return mcVers;
+    }
 }

@@ -4,14 +4,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 /**
  * A version list downloaded from a URL
  */
 public class NetVersionList extends VersionList {
-    private static final String REGEX_UNDERSCORE = Pattern.quote("_");
-
     private final BLVersion newestVersion;
     private final Map<String, BLVersion> allVersions = new HashMap<String, BLVersion>();
 
@@ -52,23 +49,5 @@ public class NetVersionList extends VersionList {
     @Override
     public BLVersion getNewestVersion() {
         return newestVersion;
-    }
-
-    /**
-     * Gets all BLVersions that support the specified MC version
-     *
-     * @param mcVer The version string to look for
-     * @return Return an Array of BLVersions containing the versions that support the specified MC version
-     */
-    @Override
-    public Map<String, BLVersion> getVersionsByMC(String mcVer) {
-        Map<String, BLVersion> mcVers = new HashMap<String, BLVersion>();
-        for (Object obj : mcVers.keySet()) {
-            String versionName = (String) obj;
-            if (versionName.split(REGEX_UNDERSCORE)[0].equals(mcVer)) {
-                mcVers.put(versionName, allVersions.get(versionName));
-            }
-        }
-        return mcVers;
     }
 }
