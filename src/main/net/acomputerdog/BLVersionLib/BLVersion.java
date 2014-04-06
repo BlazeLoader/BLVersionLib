@@ -34,6 +34,11 @@ public class BLVersion {
     }
 
     @Override
+    public int hashCode() {
+        return mcVersion.hashCode() + blVersion.hashCode() + dlURL.hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (obj == this) return true;
