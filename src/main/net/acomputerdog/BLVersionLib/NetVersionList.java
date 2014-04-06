@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * A version list downloaded from a URL
  */
-public class NetVersionList implements VersionList {
+public class NetVersionList extends VersionList {
     private static final String REGEX_UNDERSCORE = Pattern.quote("_");
 
     private final BLVersion newestVersion;
