@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Central wrapper class for BLVersionLib
+ */
 public class VersionLib {
     private static final Map<String, BLVersion> versionMap;
     private static final List<BLVersion> allVersions;

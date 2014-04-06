@@ -5,6 +5,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Test class for BLVersionLib
+ */
 public class VLTest {
 
     public static void main(String[] args) {
