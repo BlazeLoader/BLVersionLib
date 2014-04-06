@@ -1,10 +1,7 @@
 import net.acomputerdog.BLVersionLib.BLVersion;
 import net.acomputerdog.BLVersionLib.VersionLib;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 
@@ -16,7 +13,8 @@ public class VLTest {
             BLVersion newestVersion = VersionLib.getNewestVersion();
             System.out.println("Newest BL version: BL " + newestVersion.getBlVersion() + " on MC " + newestVersion.getMcVersion() + " from \"" + newestVersion.getDownloadURL() + "\".");
             System.out.println("Downloading file...");
-            saveUrl(newestVersion.getBlVersion(), newestVersion.getDownloadURL());
+            saveUrl(newestVersion.getBlVersion() + ".zip", newestVersion.getDownloadURL());
+            System.out.println("Done.");
         } catch (Exception e) {
             System.out.println("Exception running test!");
             e.printStackTrace();
@@ -39,24 +37,23 @@ public class VLTest {
         return builder.toString();
     }
 
-    private static void saveUrl(final String filename, final String urlString) throws MalformedURLException, IOException {
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
+    private static void saveUrl(final String filename, final String urlString) throws IOException {
+        InputStream in = null;
+        OutputStream out = null;
         try {
             in = new BufferedInputStream(new URL(urlString).openStream());
-            fout = new FileOutputStream(filename);
+            out = new BufferedOutputStream(new FileOutputStream(filename));
 
-            final byte data[] = new byte[1024];
-            int count;
-            while ((count = in.read(data, 0, 1024)) != -1) {
-                fout.write(data, 0, count);
+            while (in.available() > 0) {
+                out.write(in.read());
             }
+
         } finally {
             if (in != null) {
                 in.close();
             }
-            if (fout != null) {
-                fout.close();
+            if (out != null) {
+                out.close();
             }
         }
     }

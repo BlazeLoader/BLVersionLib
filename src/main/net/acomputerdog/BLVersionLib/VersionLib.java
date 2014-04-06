@@ -11,7 +11,7 @@ public class VersionLib {
 
     static {
         try {
-            OnlineVersionList vl = new OnlineVersionList();
+            VersionList vl = new OnlineVersionList();
             versionMap = vl.getVersions();
             newest = vl.getNewestVersion();
             allVersions = new ArrayList<BLVersion>();

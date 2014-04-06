@@ -44,6 +44,6 @@ public class BLVersion {
 
     @Override
     public String toString() {
-        return mcVersion + ":" + blVersion + "=" + dlURL;
+        return mcVersion + "_" + blVersion + "=" + dlURL;
     }
 }
